@@ -9,6 +9,7 @@ const errorHandler = require("./middlewares/errorHandler");
 
 const usersRouter = require("./routes/users");
 const loginRouter = require("./routes/login");
+const sketchesRouter = require("./routes/sketches");
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
+app.use("/sketches", sketchesRouter);
 
 app.use(notFoundErrorHandler);
 app.use(errorHandler);
