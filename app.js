@@ -12,10 +12,17 @@ const app = express();
 
 const mongoose = require("mongoose");
 
-mongoose
-  .connect(process.env.SECRET_URL)
-  .then(() => console.log("connected"))
-  .catch(() => console.log("failed"));
+const connectToDatabase = async () => {
+  try {
+    await mongoose.connect(process.env.SECRET_URL);
+
+    console.log("connected");
+  } catch (error) {
+    console.log("failed");
+  }
+};
+
+connectToDatabase();
 
 app.use(cors());
 app.use(logger("dev"));
