@@ -5,7 +5,7 @@ const User = require("../models/User");
 
 exports.post = async (req, res, next) => {
   try {
-    const userEmail = req.body.email
+    const userEmail = req.body.email;
     const existingUser = await User.findOne({ email: userEmail });
 
     if (!existingUser) {
