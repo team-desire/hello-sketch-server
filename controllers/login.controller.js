@@ -1,20 +1,30 @@
+const createError = require("http-errors");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+
 const User = require("../models/User");
 
 exports.post = async (req, res, next) => {
   try {
-    const user = req.userData;
-    const existingUser = await User.findOne({ email: user.email });
+    const userEmail = req.body.email
+    const existingUser = await User.findOne({ email: userEmail });
 
     if (!existingUser) {
       const newUser = new User({
-        email: user.email,
+        email: userEmail,
       });
 
       await newUser.save();
     }
 
-    res.send();
+    res.json({
+      status: "ok",
+    });
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    next(
+      createError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        ReasonPhrases.INTERNAL_SERVER_ERROR,
+      ),
+    );
   }
 };
