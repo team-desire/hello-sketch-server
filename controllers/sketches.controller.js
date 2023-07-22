@@ -2,6 +2,7 @@ const createError = require("http-errors");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const Sketch = require("../models/Sketch");
 const { NUMBER } = require("../constants/number");
+const { TEXT } = require("../constants/text");
 
 exports.getSketches = async (req, res, next) => {
   const perPage = req.query.per_page || NUMBER.DEFAULT_PER_PAGE;
@@ -26,7 +27,7 @@ exports.getSketches = async (req, res, next) => {
       .skip(startIndex);
 
     res.json({
-      status: "ok",
+      status: TEXT.OK,
       sketchesUrl: { totalItems, list: sketchesUrl },
     });
   } catch (err) {
