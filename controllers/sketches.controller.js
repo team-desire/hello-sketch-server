@@ -10,6 +10,7 @@ exports.getSketches = async (req, res, next) => {
 
   if (isNaN(perPage) || isNaN(page)) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+
     return;
   }
 
