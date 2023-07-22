@@ -31,7 +31,7 @@ exports.getSketches = async (req, res, next) => {
       status: TEXT.OK,
       sketchesUrl: { totalItems, list: sketchesUrl },
     });
-  } catch (err) {
+  } catch (error) {
     next(
       createError(
         StatusCodes.INTERNAL_SERVER_ERROR,
