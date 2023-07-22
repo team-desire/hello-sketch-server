@@ -9,6 +9,8 @@ exports.post = async (req, res, next) => {
 
   if (!userEmail) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+
+    return;
   }
 
   try {
