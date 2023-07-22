@@ -1,5 +1,6 @@
 const createError = require("http-errors");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const { TEXT } = require("../constants/text");
 
 const User = require("../models/User");
 
@@ -22,7 +23,7 @@ exports.post = async (req, res, next) => {
     }
 
     res.json({
-      status: "ok",
+      status: TEXT.OK,
     });
   } catch (error) {
     next(

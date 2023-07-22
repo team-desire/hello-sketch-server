@@ -1,10 +1,15 @@
 const admin = require("../config/firebase-config");
+const createError = require("http-errors");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const { TEXT } = require("../constants/text");
 
 const isAuthenticated = async (req, res, next) => {
   const token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    next(createError(StatusCodes.UNAUTHORIZED, ReasonPhrases.UNAUTHORIZED));
+
+    return;
   }
 
   try {
@@ -15,14 +20,23 @@ const isAuthenticated = async (req, res, next) => {
     }
   } catch (error) {
     if (error instanceof admin.auth.InvalidIdTokenError) {
-      return res.status(401).json({ message: "Invalid token" });
+      return res
+        .status(401)
+        .json({ status: TEXT.ERROR, message: "Invalid token" });
     }
 
     if (error instanceof admin.auth.ExpiredIdTokenError) {
-      return res.status(401).json({ message: "Expired token" });
+      return res
+        .status(401)
+        .json({ status: TEXT.ERROR, message: "Expired token" });
     }
 
-    return res.status(500).json({ message: "Internal Error" });
+    next(
+      createError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        ReasonPhrases.INTERNAL_SERVER_ERROR,
+      ),
+    );
   }
 };
 
