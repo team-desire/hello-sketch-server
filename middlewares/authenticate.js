@@ -11,7 +11,6 @@ const isAuthenticated = async (req, res, next) => {
     const decodeValue = await admin.auth().verifyIdToken(token);
 
     if (decodeValue) {
-
       return next();
     }
   } catch (error) {
