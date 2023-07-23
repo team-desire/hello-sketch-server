@@ -3,12 +3,19 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const Sketch = require("../models/Sketch");
 const { NUMBER } = require("../constants/number");
 const { TEXT } = require("../constants/text");
+const { isPageValid } = require("../utils");
 
 exports.getSketches = async (req, res, next) => {
   const perPage = req.query.per_page || NUMBER.DEFAULT_ITEMS_LIMIT;
   const page = req.query.page || NUMBER.DEFAULT_PAGE;
 
   if (isNaN(perPage) || isNaN(page)) {
+    next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+
+    return;
+  }
+
+  if (!isPageValid(perPage) || !isPageValid(page)) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
 
     return;
