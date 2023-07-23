@@ -1,9 +1,12 @@
 const createError = require("http-errors");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+
 const Sketch = require("../models/Sketch");
+
+const { isPageValid } = require("../utils");
+
 const { NUMBER } = require("../constants/number");
 const { TEXT } = require("../constants/text");
-const { isPageValid } = require("../utils");
 
 exports.getSketches = async (req, res, next) => {
   const perPage = req.query.per_page || NUMBER.DEFAULT_ITEMS_LIMIT;
