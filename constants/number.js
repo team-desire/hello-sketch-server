@@ -1,4 +1,4 @@
 exports.NUMBER = {
-  DEFAULT_PER_PAGE: 3,
+  DEFAULT_ITEMS_LIMIT: 3,
   DEFAULT_PAGE: 1,
 };
