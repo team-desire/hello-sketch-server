@@ -5,7 +5,7 @@ const { NUMBER } = require("../constants/number");
 const { TEXT } = require("../constants/text");
 
 exports.getSketches = async (req, res, next) => {
-  const perPage = req.query.per_page || NUMBER.DEFAULT_PER_PAGE;
+  const perPage = req.query.per_page || NUMBER.DEFAULT_ITEMS_LIMIT;
   const page = req.query.page || NUMBER.DEFAULT_PAGE;
 
   if (isNaN(perPage) || isNaN(page)) {
