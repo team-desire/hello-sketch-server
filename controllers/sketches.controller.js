@@ -24,6 +24,7 @@ exports.getSketches = async (req, res, next) => {
   try {
     const startIndex = (page - 1) * perPage;
     const totalItems = await Sketch.countDocuments({ isPublic: true });
+    const totalPages = Math.ceil(totalItems / perPage);
 
     const sketchesUrl = await Sketch.find({ isPublic: true })
       .sort({ _id: 1 })
@@ -36,7 +37,7 @@ exports.getSketches = async (req, res, next) => {
 
     res.json({
       status: TEXT.OK,
-      sketchesUrl: { totalItems, list: sketchesUrl },
+      sketchesUrl: { totalItems, totalPages, list: sketchesUrl },
     });
   } catch (error) {
     next(
