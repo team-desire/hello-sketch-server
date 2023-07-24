@@ -12,13 +12,15 @@ const loginRouter = require("./routes/login");
 const sketchesRouter = require("./routes/sketches");
 const unitsRouter = require("./routes/units");
 
+const { CONFIG } = require("./constants/config");
+
 const app = express();
 
 const mongoose = require("mongoose");
 
 const connectToDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(CONFIG.MONGODB_URI);
 
     console.log("connected");
   } catch (error) {
