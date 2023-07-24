@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
-});
+const { getSketch } = require("../controllers/sketches.controller");
+
+router.get(`/:userId/sketches/:sketchId`, getSketch);
 
 module.exports = router;
