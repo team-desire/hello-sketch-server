@@ -56,8 +56,7 @@ exports.getSketchDownloadUrl = async (req, res, next) => {
   const sketch_id = req.params.sketch_id;
 
   try {
-    const sketch = await Sketch.findOne({ _id: sketch_id });
-
+    const sketch = await Sketch.findById(sketch_id);
     if (!sketch) {
       next(createError(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
 
