@@ -2,8 +2,9 @@ const createError = require("http-errors");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 const Sketch = require("../models/Sketch");
+const Comment = require("../models/Comment");
 
-const { isPageValid } = require("../utils");
+const { isPageValid, isIdValid } = require("../utils");
 
 const { NUMBER } = require("../constants/number");
 const { TEXT } = require("../constants/text");
@@ -73,6 +74,35 @@ exports.getSketchDownloadUrl = async (req, res, next) => {
         StatusCodes.INTERNAL_SERVER_ERROR,
         ReasonPhrases.INTERNAL_SERVER_ERROR,
       ),
+    );
+  }
+};
+
+exports.getSketch = async (req, res, next) => {
+  const { userId, sketchId } = req.params;
+
+  if (!isIdValid(userId) || !isIdValid(sketchId)) {
+    next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+
+    return;
+  }
+
+  try {
+    const sketch = await Sketch.findById(sketchId).populate("comments");
+
+    if (!sketch) {
+      next(createError(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+
+      return;
+    }
+
+    res.json({
+      status: TEXT.OK,
+      sketch,
+    });
+  } catch (error) {
+    next(
+      createError(StatusCodes.INTERNAL_SERVER_ERROR, ReasonPhrases.BAD_REQUEST),
     );
   }
 };
