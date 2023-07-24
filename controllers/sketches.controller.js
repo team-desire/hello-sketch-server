@@ -53,7 +53,7 @@ exports.getSketches = async (req, res, next) => {
 };
 
 exports.getSketchDownloadUrl = async (req, res, next) => {
-  const sketch_id = req.params.sketch_id;
+  const { sketch_id } = req.params;
 
   try {
     const sketch = await Sketch.findById(sketch_id);
