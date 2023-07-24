@@ -51,3 +51,29 @@ exports.getSketches = async (req, res, next) => {
     );
   }
 };
+
+exports.getSketchDownloadUrl = async (req, res, next) => {
+  const sketch_id = req.params.sketch_id;
+
+  try {
+    const sketch = await Sketch.findOne({ _id: sketch_id });
+
+    if (!sketch) {
+      next(createError(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+
+      return;
+    }
+
+    res.json({
+      status: TEXT.OK,
+      url: sketch.imageUrl,
+    });
+  } catch (error) {
+    next(
+      createError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        ReasonPhrases.INTERNAL_SERVER_ERROR,
+      ),
+    );
+  }
+};
