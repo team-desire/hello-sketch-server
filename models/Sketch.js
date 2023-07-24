@@ -3,8 +3,7 @@ const { Schema } = mongoose;
 
 const sketchSchema = new Schema(
   {
-    _id: { type: String },
-    userId: { type: mongoose.Types.ObjectId, required: true, ref: "User" },
+    userId: { type: mongoose.Types.ObjectId, ref: "User" },
     title: String,
     type: { type: String, enum: ["basic", "cartoon"] },
     isPublic: { type: Boolean, index: true },
@@ -31,7 +30,7 @@ const sketchSchema = new Schema(
         url: String,
       },
     ],
-    comments: [{ type: String, ref: "Comment", required: true }],
+    comments: [{ type: mongoose.Types.ObjectId, ref: "Comment" }],
   },
   { timestamps: true },
 );
