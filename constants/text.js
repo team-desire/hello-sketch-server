@@ -1,4 +1,4 @@
 exports.TEXT = {
-  OK: "ok",
-  ERROR: "error",
+  STATUS_OK: "ok",
+  STATUS_ERROR: "error",
 };
