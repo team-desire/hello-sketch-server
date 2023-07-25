@@ -6,7 +6,7 @@ const errorHandler = async (err, req, res, next) => {
 
   res.status(err.status || StatusCodes.INTERNAL_SERVER_ERROR);
   res.json({
-    status: TEXT.ERROR,
+    status: TEXT.STATUS_ERROR,
     message,
   });
 };
