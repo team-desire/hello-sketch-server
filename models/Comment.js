@@ -3,7 +3,6 @@ const { Schema } = mongoose;
 
 const commentSchema = new Schema(
   {
-    sketchId: { type: mongoose.Types.ObjectId, ref: "Sketch" },
     userId: { type: mongoose.Types.ObjectId, ref: "User" },
     text: { type: String },
     location: {
