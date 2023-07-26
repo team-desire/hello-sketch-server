@@ -30,18 +30,18 @@ exports.getListObjectsCommand = (bucketName, prefix, delimiter) => {
   return listObjectsCommand;
 };
 
-exports.getPubObjectCommand = (
+exports.getPutObjectCommand = (
   bucketName,
   key,
   body,
   contentType = "image/png",
 ) => {
-  const pubObjectCommand = new PutObjectCommand({
+  const putObjectCommand = new PutObjectCommand({
     Bucket: bucketName,
     Key: key,
     Body: body,
     ContentType: contentType,
   });
 
-  return pubObjectCommand;
+  return putObjectCommand;
 };
