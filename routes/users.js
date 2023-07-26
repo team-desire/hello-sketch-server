@@ -7,6 +7,6 @@ const {
 } = require("../controllers/sketches.controller");
 
 router.get(`/:userId/sketches/:sketchId`, getSketch);
-router.post(`/:userId/sketches/:sketchId`, createSketch);
+router.post(`/:userId/sketches`, createSketch);
 
 module.exports = router;
