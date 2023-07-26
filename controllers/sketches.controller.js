@@ -3,11 +3,14 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 const Sketch = require("../models/Sketch");
 const Comment = require("../models/Comment");
+const User = require("../models/User");
 
 const { isPageValid, isIdValid } = require("../utils");
+const { getPubObjectCommand, getS3Client } = require("../utils/s3Config");
 
 const { NUMBER } = require("../constants/number");
 const { TEXT } = require("../constants/text");
+const { CONFIG } = require("../constants/config");
 
 exports.getSketches = async (req, res, next) => {
   const perPage = req.query.per_page || NUMBER.DEFAULT_ITEMS_LIMIT;
@@ -103,6 +106,51 @@ exports.getSketch = async (req, res, next) => {
   } catch (error) {
     next(
       createError(StatusCodes.INTERNAL_SERVER_ERROR, ReasonPhrases.BAD_REQUEST),
+    );
+  }
+};
+
+exports.createSketch = async (req, res, next) => {
+  const { userId, sketchId } = req.params;
+
+  if (!isIdValid(userId) || !isIdValid(sketchId)) {
+    next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+
+    return;
+  }
+
+  const { title, type, isPublic, image, comments } = req.body;
+
+  if (!type || !isPublic || !image) {
+    next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+  }
+
+  try {
+    const user = await User.findOne({ email: userId });
+    if (!user) {
+      next(createError(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+      return;
+    }
+
+    if (!comments) {
+      const sketch = new Sketch({
+        userId: user._id,
+        title,
+        type,
+        isPublic,
+        imageUrl: "test",
+      });
+      await sketch.save();
+      res.json({ status: TEXT.STATUS_OK, sketch });
+
+      return;
+    }
+  } catch (error) {
+    next(
+      createError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        ReasonPhrases.INTERNAL_SERVER_ERROR,
+      ),
     );
   }
 };
