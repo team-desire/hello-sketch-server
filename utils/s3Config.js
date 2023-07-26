@@ -1,4 +1,8 @@
-const { S3Client, ListObjectsV2Command } = require("@aws-sdk/client-s3");
+const {
+  S3Client,
+  ListObjectsV2Command,
+  PutObjectCommand,
+} = require("@aws-sdk/client-s3");
 
 const { CONFIG } = require("../constants/config");
 
@@ -24,4 +28,20 @@ exports.getListObjectsCommand = (bucketName, prefix, delimiter) => {
   });
 
   return listObjectsCommand;
+};
+
+exports.getPubObjectCommand = (
+  bucketName,
+  key,
+  body,
+  contentType = "image/png",
+) => {
+  const pubObjectCommand = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: key,
+    Body: body,
+    ContentType: contentType,
+  });
+
+  return pubObjectCommand;
 };
