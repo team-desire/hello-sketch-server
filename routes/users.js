@@ -1,8 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-const { getSketch } = require("../controllers/sketches.controller");
+const {
+  getSketch,
+  createSketch,
+} = require("../controllers/sketches.controller");
 
 router.get(`/:userId/sketches/:sketchId`, getSketch);
+router.post(`/:userId/sketches/:sketchId`, createSketch);
 
 module.exports = router;
