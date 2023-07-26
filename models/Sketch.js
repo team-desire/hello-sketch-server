@@ -8,21 +8,6 @@ const sketchSchema = new Schema(
     type: { type: String, enum: ["illustration", "cartoon"] },
     isPublic: { type: Boolean, index: true },
     imageUrl: String,
-    canvas: {
-      person: [
-        {
-          type: {
-            type: String,
-            enum: ["head", "body", "bottom", "scene", "face"],
-          },
-          location: {
-            top: { type: String },
-            left: { type: String },
-          },
-          url: String,
-        },
-      ],
-    },
     comments: [{ type: mongoose.Types.ObjectId, ref: "Comment" }],
   },
   { timestamps: true },
