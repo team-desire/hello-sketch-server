@@ -4,7 +4,7 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const Sketch = require("../models/Sketch");
 const User = require("../models/User");
 
-const { isPageValid, isIdValid } = require("../utils");
+const { isPageValid, isIdValid, isUserIdValid } = require("../utils");
 const { getS3Client, getPutObjectCommand } = require("../utils/s3Config");
 
 const { NUMBER } = require("../constants/number");
@@ -83,7 +83,7 @@ exports.getSketchDownloadUrl = async (req, res, next) => {
 exports.getSketch = async (req, res, next) => {
   const { userId, sketchId } = req.params;
 
-  if (!isIdValid(userId) || !isIdValid(sketchId)) {
+  if (!isUserIdValid(userId) || !isIdValid(sketchId)) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
 
     return;
@@ -112,7 +112,7 @@ exports.getSketch = async (req, res, next) => {
 exports.createSketch = async (req, res, next) => {
   const { userId } = req.params;
 
-  if (!isIdValid(userId)) {
+  if (!isUserIdValid(userId)) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
 
     return;
