@@ -138,9 +138,8 @@ exports.createSketch = async (req, res, next) => {
         const s3Client = getS3Client();
         const buffer = Buffer.from(image, "base64");
 
-        const imageFileName = `sketches/${
-          user._id
-        }/${new Date().toISOString()}.png`;
+        const imageId = new Date().toISOString();
+        const imageFileName = `sketches/${user._id}/${imageId}.png`;
 
         const putObjectCommand = getPutObjectCommand(
           CONFIG.AWS_S3_BUCKET_NAME,
