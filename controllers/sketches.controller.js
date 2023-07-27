@@ -43,7 +43,7 @@ exports.getSketches = async (req, res, next) => {
       .skip(startIndex);
 
     res.json({
-      status: TEXT.STATUS_OK,
+      status: TEXT.STATUS.OK,
       sketchesUrl: { totalItems, totalPages, list: sketchesUrl },
     });
   } catch (error) {
@@ -68,7 +68,7 @@ exports.getSketchDownloadUrl = async (req, res, next) => {
     }
 
     res.json({
-      status: TEXT.STATUS_OK,
+      status: TEXT.STATUS.OK,
       url: sketch.imageUrl,
     });
   } catch (error) {
@@ -100,7 +100,7 @@ exports.getSketch = async (req, res, next) => {
     }
 
     res.json({
-      status: TEXT.STATUS_OK,
+      status: TEXT.STATUS.OK,
       sketch,
     });
   } catch (error) {
