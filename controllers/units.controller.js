@@ -10,7 +10,12 @@ const { OPTIONS } = require("../constants/options");
 const { NUMBER } = require("../constants/number");
 
 exports.getUnits = async (req, res, next) => {
-  const { per_page, page, unitType, sketchType } = req.query;
+  const {
+    per_page = 3,
+    page = 1,
+    unitType,
+    sketchType = "cartoon",
+  } = req.query;
 
   if (isNaN(per_page) || isNaN(page)) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
