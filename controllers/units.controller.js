@@ -10,7 +10,7 @@ const { OPTIONS } = require("../constants/options");
 const { NUMBER } = require("../constants/number");
 
 exports.getUnits = async (req, res, next) => {
-  const { per_page, page, type } = req.query;
+  const { per_page, page, unitType, sketchType } = req.query;
 
   if (isNaN(per_page) || isNaN(page)) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
@@ -24,7 +24,7 @@ exports.getUnits = async (req, res, next) => {
     return;
   }
 
-  if (!type || !OPTIONS.UNIT_TYPE.has(type)) {
+  if (!unitType || !OPTIONS.UNIT_TYPE.has(unitType)) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
 
     return;
@@ -34,7 +34,7 @@ exports.getUnits = async (req, res, next) => {
   const pageNumber = Number(page) || NUMBER.DEFAULT_PAGE;
 
   try {
-    const objects = await getS3Objects(type);
+    const objects = await getS3Objects(sketchType, unitType);
 
     const startIndex = (pageNumber - 1) * perPageNumber;
     const endIndex = startIndex + perPageNumber;
@@ -62,12 +62,12 @@ exports.getUnits = async (req, res, next) => {
   }
 };
 
-const getS3Objects = async (type) => {
+const getS3Objects = async (sketchType, unitType) => {
   const s3Client = getS3Client();
 
   const listObjectsCommand = getListObjectsCommand(
     CONFIG.AWS_S3_BUCKET_NAME,
-    `units/${type}/`,
+    `units/${sketchType}/${unitType}/`,
     "/",
   );
 
