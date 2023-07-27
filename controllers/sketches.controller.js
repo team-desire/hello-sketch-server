@@ -129,6 +129,7 @@ exports.createSketch = async (req, res, next) => {
     const user = await User.findOne({ email: userId });
     if (!user) {
       next(createError(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+
       return;
     }
 
@@ -174,6 +175,7 @@ exports.createSketch = async (req, res, next) => {
           });
 
           const savedNewDocument = await newComment.save();
+
           return savedNewDocument._id;
         });
 
@@ -190,6 +192,7 @@ exports.createSketch = async (req, res, next) => {
             ReasonPhrases.INTERNAL_SERVER_ERROR,
           ),
         );
+
         return;
       }
     };
