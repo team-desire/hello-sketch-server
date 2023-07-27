@@ -45,7 +45,7 @@ exports.getUnits = async (req, res, next) => {
     const slicedObjects = objects.slice(startIndex, endIndex);
 
     res.json({
-      status: TEXT.STATUS_OK,
+      status: TEXT.STATUS.OK,
       units: {
         totalItems,
         totalPages,

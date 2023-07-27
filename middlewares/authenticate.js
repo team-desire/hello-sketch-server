@@ -21,14 +21,14 @@ const isAuthenticated = async (req, res, next) => {
   } catch (error) {
     if (error instanceof admin.auth.InvalidIdTokenError) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
-        status: TEXT.STATUS_ERROR,
+        status: TEXT.STATUS.ERROR,
         message: "Invalid token",
       });
     }
 
     if (error instanceof admin.auth.ExpiredIdTokenError) {
       return res.status(StatusCodes.UNAUTHORIZED).json({
-        status: TEXT.STATUS_ERROR,
+        status: TEXT.STATUS.ERROR,
         message: "Expired token",
       });
     }

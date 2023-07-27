@@ -25,7 +25,7 @@ exports.post = async (req, res, next) => {
     }
 
     res.json({
-      status: TEXT.STATUS_OK,
+      status: TEXT.STATUS.OK,
     });
   } catch (error) {
     next(
