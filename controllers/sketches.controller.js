@@ -2,7 +2,6 @@ const createError = require("http-errors");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 const Sketch = require("../models/Sketch");
-const Comment = require("../models/Comment");
 const User = require("../models/User");
 
 const { isPageValid, isIdValid } = require("../utils");
@@ -91,7 +90,7 @@ exports.getSketch = async (req, res, next) => {
   }
 
   try {
-    const sketch = await Sketch.findById(sketchId).populate("comments");
+    const sketch = await Sketch.findById(sketchId);
 
     if (!sketch) {
       next(createError(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
@@ -119,7 +118,7 @@ exports.createSketch = async (req, res, next) => {
     return;
   }
 
-  const { title, type, isPublic, image, comments } = req.body;
+  const { title, type, isPublic, image } = req.body;
 
   if (!type || !isPublic || !image) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
@@ -156,31 +155,6 @@ exports.createSketch = async (req, res, next) => {
           imageUrl: `https://${CONFIG.AWS_S3_BUCKET_NAME}.s3.${CONFIG.AWS_S3_REGION}.amazonaws.com/${imageFileName}`,
         });
 
-        if (!comments) {
-          await sketch.save();
-          res.json({ status: TEXT.STATUS_OK, sketch });
-
-          return;
-        }
-
-        const saveCommentPromises = comments.map(async (comment) => {
-          const newComment = new Comment({
-            userId: user._id,
-            text: comment.text,
-            location: {
-              top: comment.location?.top || "50%",
-              left: comment.location?.left || "50%",
-            },
-          });
-
-          const savedNewDocument = await newComment.save();
-
-          return savedNewDocument._id;
-        });
-
-        const commentIds = await Promise.all(saveCommentPromises);
-
-        sketch.comments = commentIds;
         await sketch.save();
 
         res.json({ status: TEXT.STATUS_OK, sketch });
