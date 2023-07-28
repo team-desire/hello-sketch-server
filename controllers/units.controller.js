@@ -35,6 +35,12 @@ exports.getUnits = async (req, res, next) => {
     return;
   }
 
+  if (!OPTIONS.SKETCH_TYPE.has(sketchType)) {
+    next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+
+    return;
+  }
+
   const perPageNumber = Number(per_page) || NUMBER.DEFAULT_ITEMS_LIMIT;
   const pageNumber = Number(page) || NUMBER.DEFAULT_PAGE;
 
