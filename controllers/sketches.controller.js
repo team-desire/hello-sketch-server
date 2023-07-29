@@ -12,7 +12,7 @@ const { TEXT } = require("../constants/text");
 const { CONFIG } = require("../constants/config");
 
 exports.getSketches = async (req, res, next) => {
-  const perPage = req.query.per_page || NUMBER.DEFAULT_ITEMS_LIMIT;
+  const perPage = req.query.per_page || 6;
   const page = req.query.page || NUMBER.DEFAULT_PAGE;
 
   if (isNaN(perPage) || isNaN(page)) {
@@ -214,7 +214,7 @@ exports.getUserSketches = async (req, res, next) => {
       return;
     }
 
-    const perPageNumber = Number(per_page) || NUMBER.DEFAULT_ITEMS_LIMIT;
+    const perPageNumber = Number(per_page) || 6;
     const pageNumber = Number(page) || NUMBER.DEFAULT_PAGE;
 
     const startIndex = (pageNumber - 1) * perPageNumber;
