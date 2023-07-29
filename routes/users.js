@@ -8,7 +8,7 @@ const {
   getUserSketches,
 } = require("../controllers/sketches.controller");
 
-router.get(`/:userId/sketches/:sketchId`, getSketch);
+router.get(`/:userId/sketches/:sketchId`, isAuthenticated, getSketch);
 router.post(`/:userId/sketches`, isAuthenticated, createSketch);
 router.get(`/:userId/sketches`, isAuthenticated, getUserSketches);
 
