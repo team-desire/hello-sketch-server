@@ -180,3 +180,65 @@ exports.createSketch = async (req, res, next) => {
     );
   }
 };
+
+exports.getUserSketches = async (req, res, next) => {
+  const { per_page = NUMBER.DEFAULT_ITEMS_LIMIT, page = NUMBER.DEFAULT_PAGE } =
+    req.query;
+
+  const { userId } = req.params;
+
+  if (isNaN(per_page) || isNaN(page)) {
+    next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+
+    return;
+  }
+
+  if (!isPageValid(per_page) || !isPageValid(page)) {
+    next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+
+    return;
+  }
+
+  if (!isUserIdValid(userId)) {
+    next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
+
+    return;
+  }
+
+  try {
+    const user = await User.findOne({ email: userId });
+
+    if (!user) {
+      next(createError(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
+
+      return;
+    }
+
+    const getSketches = async () => {
+      try {
+        const sketches = await Sketch.find({ userId: user._id });
+        const totalItems = sketches.length;
+
+        res.json({
+          status: TEXT.STATUS.OK,
+        });
+      } catch (error) {
+        next(
+          createError(
+            StatusCodes.INTERNAL_SERVER_ERROR,
+            ReasonPhrases.INTERNAL_SERVER_ERROR,
+          ),
+        );
+      }
+    };
+
+    getSketches();
+  } catch (error) {
+    next(
+      createError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        ReasonPhrases.INTERNAL_SERVER_ERROR,
+      ),
+    );
+  }
+};
