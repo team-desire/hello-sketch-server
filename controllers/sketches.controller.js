@@ -230,6 +230,9 @@ exports.getUserSketches = async (req, res, next) => {
         const sliceSketches = sketches.slice(startIndex, endIndex);
         const sliceSketchesUrls = sliceSketches.map((sketch) => ({
           url: sketch.imageUrl,
+          createdAt: sketch.createdAt,
+          updatedAt: sketch.updatedAt,
+          title: sketch.title,
         }));
 
         res.json({
