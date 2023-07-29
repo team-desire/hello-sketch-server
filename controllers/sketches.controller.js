@@ -157,7 +157,7 @@ exports.createSketch = async (req, res, next) => {
 
         await sketch.save();
 
-        res.json({ status: TEXT.STATUS_OK, sketch });
+        res.json({ status: TEXT.STATUS.OK, sketch });
       } catch (error) {
         next(
           createError(
