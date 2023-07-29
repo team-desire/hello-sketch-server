@@ -11,8 +11,8 @@ const { NUMBER } = require("../constants/number");
 
 exports.getUnits = async (req, res, next) => {
   const {
-    per_page = 3,
-    page = 1,
+    per_page = NUMBER.DEFAULT_ITEMS_LIMIT,
+    page = NUMBER.DEFAULT_PAGE,
     unitType,
     sketchType = "cartoon",
   } = req.query;
