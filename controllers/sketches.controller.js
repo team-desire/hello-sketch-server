@@ -228,7 +228,7 @@ exports.getUserSketches = async (req, res, next) => {
         const totalPages = Math.ceil(totalItems / perPageNumber);
 
         const sliceSketches = sketches.slice(startIndex, endIndex);
-        const sliceSketchesUrls = sliceSketches.map((sketch) => ({
+        const sliceSketchesData = sliceSketches.map((sketch) => ({
           url: sketch.imageUrl,
           createdAt: sketch.createdAt,
           updatedAt: sketch.updatedAt,
@@ -239,7 +239,7 @@ exports.getUserSketches = async (req, res, next) => {
           status: TEXT.STATUS.OK,
           sketches: {
             totalPages,
-            list: sliceSketchesUrls,
+            list: sliceSketchesData,
           },
         });
       } catch (error) {
