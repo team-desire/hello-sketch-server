@@ -214,13 +214,30 @@ exports.getUserSketches = async (req, res, next) => {
       return;
     }
 
+    const perPageNumber = Number(per_page) || NUMBER.DEFAULT_ITEMS_LIMIT;
+    const pageNumber = Number(page) || NUMBER.DEFAULT_PAGE;
+
+    const startIndex = (pageNumber - 1) * perPageNumber;
+    const endIndex = startIndex + perPageNumber;
+
     const getSketches = async () => {
       try {
         const sketches = await Sketch.find({ userId: user._id });
+
         const totalItems = sketches.length;
+        const totalPages = Math.ceil(totalItems / perPageNumber);
+
+        const sliceSketches = sketches.slice(startIndex, endIndex);
+        const sliceSketchesUrls = sliceSketches.map((sketch) => ({
+          url: sketch.imageUrl,
+        }));
 
         res.json({
           status: TEXT.STATUS.OK,
+          sketches: {
+            totalPages,
+            list: sliceSketchesUrls,
+          },
         });
       } catch (error) {
         next(
