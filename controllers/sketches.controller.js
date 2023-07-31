@@ -135,7 +135,7 @@ exports.createSketch = async (req, res, next) => {
     const saveSketch = async () => {
       try {
         const s3Client = getS3Client();
-        const buffer = Buffer.from(image, "base64");
+        const buffer = Buffer.from(image.split(",")[1], "base64");
 
         const imageId = new Date().toISOString();
         const imageFileName = `sketches/${user._id}/${imageId}.png`;
