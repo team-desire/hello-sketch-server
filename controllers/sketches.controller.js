@@ -183,8 +183,7 @@ exports.createSketch = async (req, res, next) => {
 };
 
 exports.getUserSketches = async (req, res, next) => {
-  const { per_page = NUMBER.DEFAULT_ITEMS_LIMIT, page = NUMBER.DEFAULT_PAGE } =
-    req.query;
+  const { per_page = 6, page = NUMBER.DEFAULT_PAGE } = req.query;
 
   const { userId } = req.params;
 
