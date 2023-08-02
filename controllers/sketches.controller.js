@@ -95,7 +95,7 @@ exports.createSketch = async (req, res, next) => {
 
   const { title, type, isPublic, image } = req.body;
 
-  if (!type || !isPublic || !image) {
+  if (!type || !image) {
     next(createError(StatusCodes.BAD_REQUEST, ReasonPhrases.BAD_REQUEST));
   }
 
