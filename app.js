@@ -1,4 +1,8 @@
-require("dotenv").config();
+if (process.env.NODE_ENV === "development") {
+  const dotenv = require("dotenv");
+  dotenv.config();
+}
+
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
