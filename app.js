@@ -15,6 +15,7 @@ const usersRouter = require("./routes/users");
 const loginRouter = require("./routes/login");
 const sketchesRouter = require("./routes/sketches");
 const unitsRouter = require("./routes/units");
+const indexRouter = require("./routes/index");
 
 const { CONFIG } = require("./constants/config");
 
@@ -44,6 +45,7 @@ app.use("/users", usersRouter);
 app.use("/login", loginRouter);
 app.use("/sketches", sketchesRouter);
 app.use("/units", unitsRouter);
+app.use("/", indexRouter);
 
 app.use(notFoundErrorHandler);
 app.use(errorHandler);
