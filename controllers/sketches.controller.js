@@ -55,32 +55,6 @@ exports.getSketches = async (req, res, next) => {
   }
 };
 
-exports.getSketchDownloadUrl = async (req, res, next) => {
-  const { sketch_id } = req.params;
-
-  try {
-    const sketch = await Sketch.findById(sketch_id);
-
-    if (!sketch) {
-      next(createError(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
-
-      return;
-    }
-
-    res.json({
-      status: TEXT.STATUS.OK,
-      url: sketch.imageUrl,
-    });
-  } catch (error) {
-    next(
-      createError(
-        StatusCodes.INTERNAL_SERVER_ERROR,
-        ReasonPhrases.INTERNAL_SERVER_ERROR,
-      ),
-    );
-  }
-};
-
 exports.getSketch = async (req, res, next) => {
   const { userId, sketchId } = req.params;
 
@@ -127,6 +101,7 @@ exports.createSketch = async (req, res, next) => {
 
   try {
     const user = await User.findOne({ email: userId });
+
     if (!user) {
       next(createError(StatusCodes.NOT_FOUND, ReasonPhrases.NOT_FOUND));
 
@@ -158,7 +133,7 @@ exports.createSketch = async (req, res, next) => {
 
         await sketch.save();
 
-        res.json({ status: TEXT.STATUS.OK, sketch });
+        res.json({ status: TEXT.STATUS.OK });
       } catch (error) {
         next(
           createError(
