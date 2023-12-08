@@ -13,6 +13,7 @@ const errorHandler = require("./middlewares/errorHandler");
 
 const usersRouter = require("./routes/users");
 const loginRouter = require("./routes/login");
+const logoutRouter = require("./routes/logout");
 const sketchesRouter = require("./routes/sketches");
 const unitsRouter = require("./routes/units");
 const indexRouter = require("./routes/index");
@@ -48,6 +49,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/users", usersRouter);
 app.use("/login", loginRouter);
+app.use("/logout", logoutRouter);
 app.use("/sketches", sketchesRouter);
 app.use("/units", unitsRouter);
 app.use("/", indexRouter);
