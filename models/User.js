@@ -7,6 +7,11 @@ const userSchema = Schema(
       type: String,
       unique: true,
     },
+    token: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
   { timestamps: true },
 );

@@ -35,7 +35,12 @@ const connectToDatabase = async () => {
 
 connectToDatabase();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: CONFIG.CLIENT,
+    credentials: true,
+  }),
+);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
